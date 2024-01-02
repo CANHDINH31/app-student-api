@@ -3,18 +3,12 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/users.schema';
-import { Schedule, ScheduleSchema } from 'src/schemas/schedules.schema';
-
-import { SchedulesService } from 'src/schedules/schedules.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
-      { name: Schedule.name, schema: ScheduleSchema },
-    ]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [UsersController],
-  providers: [UsersService, SchedulesService],
+  providers: [UsersService],
 })
 export class UsersModule {}
