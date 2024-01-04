@@ -20,7 +20,7 @@ export class CreateUserDto {
   password: string;
 
   @IsOptional()
-  @IsNumber()
+  @IsString()
   address: string;
 
   @IsOptional()
