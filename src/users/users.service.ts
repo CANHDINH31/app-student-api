@@ -4,7 +4,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/schemas/users.schema';
 import { Model } from 'mongoose';
-import { FindUserByEmailAndUsernameDto } from './dto/find-user-by-email-and-username.dto';
 import { MoneyDto } from './dto/money-dto';
 import { PasswordDto } from './dto/password-dto';
 import { DeleteUserDto } from './dto/delete-user.dto';
@@ -43,22 +42,6 @@ export class UsersService {
         message: 'Thêm mới user thành công',
         data,
       };
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async findByEmailAndUsername(
-    findUserByEmailAndUsernameDto: FindUserByEmailAndUsernameDto,
-  ) {
-    try {
-      const user = await this.userModal.find({
-        $or: [
-          { email: findUserByEmailAndUsernameDto.email },
-          { username: findUserByEmailAndUsernameDto.username },
-        ],
-      });
-      return user;
     } catch (error) {
       throw error;
     }
@@ -224,7 +207,6 @@ export class UsersService {
     }
     try {
       const user = await this.userModal.findById(id);
-      user.is_block = !user.is_block;
       await user.save();
       return {
         status: HttpStatus.OK,

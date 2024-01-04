@@ -15,14 +15,15 @@ export class AuthService {
   ) {}
   async register(registerDto: RegisterDto) {
     try {
-      const existAccount = await this.userService.findByEmailAndUsername({
-        email: registerDto.email,
-        username: registerDto.username,
-      });
-      if (existAccount?.length > 0)
+      const existAccount = await this.userService.findByUsername(
+        registerDto.username,
+      );
+
+      if (existAccount)
         throw new BadRequestException({
-          message: 'Email hoặc Username đã tồn tại',
+          message: 'Username đã tồn tại',
         });
+
       const password = await bcrypt.hash(registerDto.password, 10);
       return await this.userService.create({ ...registerDto, password });
     } catch (error) {
@@ -45,12 +46,6 @@ export class AuthService {
       );
       if (!isCorrectPassword)
         throw new BadRequestException({ message: 'Mật khẩu chưa chính xác' });
-
-      if (existAccount?.is_block)
-        throw new BadRequestException({
-          message:
-            'Tài khoản của bạn đã bị khóa, vui lòng liên hệ với admin để mở khóa',
-        });
 
       const { password, ...data } = existAccount.toObject();
 
