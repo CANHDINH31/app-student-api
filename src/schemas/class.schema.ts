@@ -16,6 +16,12 @@ export class Class {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   teacher: string;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }] })
+  historyExams: string[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' })
+  currentExam: string;
 }
 
 export const ClassSchema = SchemaFactory.createForClass(Class);

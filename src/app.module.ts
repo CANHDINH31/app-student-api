@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
 import { ClassesModule } from './classes/classes.module';
+import { ExamsModule } from './exams/exams.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ClassesModule } from './classes/classes.module';
     AuthModule,
     UsersModule,
     ClassesModule,
+    ExamsModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtService],

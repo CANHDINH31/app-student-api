@@ -37,7 +37,9 @@ export class ClassesService {
         .find(query)
         .sort({ createdAt: -1 })
         .populate('teacher')
-        .populate('students');
+        .populate('students')
+        .populate('historyExams')
+        .populate('currentExam');
     } catch (error) {
       throw error;
     }
@@ -48,7 +50,9 @@ export class ClassesService {
       return await this.classModal
         .findById(id)
         .populate('teacher')
-        .populate('students');
+        .populate('students')
+        .populate('historyExams')
+        .populate('currentExam');
     } catch (error) {}
   }
 
