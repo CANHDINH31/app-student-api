@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { ResultsService } from './results.service';
 import { CreateResultDto } from './dto/create-result.dto';
@@ -21,13 +22,13 @@ export class ResultsController {
   }
 
   @Get()
-  findAll() {
-    return this.resultsService.findAll();
+  findAll(@Req() req) {
+    return this.resultsService.findAll(req);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.resultsService.findOne(+id);
+    return this.resultsService.findOne(id);
   }
 
   @Patch(':id')
