@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
 import { ClassesModule } from './classes/classes.module';
 import { ExamsModule } from './exams/exams.module';
+import { ResultsModule } from './results/results.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ExamsModule } from './exams/exams.module';
     UsersModule,
     ClassesModule,
     ExamsModule,
+    ResultsModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtService],
