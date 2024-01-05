@@ -1,4 +1,20 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateClassDto } from './create-class.dto';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
-export class UpdateClassDto extends PartialType(CreateClassDto) {}
+export class UpdateClassDto {
+  @IsString()
+  @IsOptional()
+  name: string;
+
+  @IsString()
+  @IsOptional()
+  code: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  students: string[];
+
+  @IsOptional()
+  @IsString()
+  teacher: string;
+}

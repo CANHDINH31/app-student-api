@@ -12,7 +12,10 @@ export class Class {
   code: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
-  student_id: string[];
+  students: string[];
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  teacher: string;
 }
 
 export const ClassSchema = SchemaFactory.createForClass(Class);

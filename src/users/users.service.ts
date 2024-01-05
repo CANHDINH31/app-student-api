@@ -5,34 +5,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/schemas/users.schema';
 import { Model } from 'mongoose';
 import { MoneyDto } from './dto/money-dto';
-import { PasswordDto } from './dto/password-dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
-import * as bcrypt from 'bcrypt';
-import * as moment from 'moment';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModal: Model<User>) {}
 
-  async statis(role: number) {
-    if (role !== 3) {
-      throw new BadRequestException({
-        message: 'Chỉ admin mới xem được danh sách người dùng',
-      });
-    }
-    try {
-      const count_student = await this.userModal
-        .find({ role: 1 })
-        .countDocuments();
-      const count_tutor = await this.userModal
-        .find({ role: 2 })
-        .countDocuments();
-
-      return { count_student, count_tutor };
-    } catch (error) {
-      throw error;
-    }
-  }
   async create(createUserDto: CreateUserDto) {
     try {
       const userCreated = await this.userModal.create({ ...createUserDto });
@@ -56,15 +33,16 @@ export class UsersService {
     }
   }
 
-  async findAll(role: number) {
-    if (role !== 2) {
-      throw new BadRequestException({
-        message: 'Chỉ teacher mới xem được danh sách người dùng',
-      });
-    }
+  async findAll(req: any) {
+    let query = {};
+
+    query = {
+      ...(req?.query?.role && { role: req.query.role }),
+    };
+
     try {
       return await this.userModal
-        .find({ role: { $ne: 3 } })
+        .find(query)
         .select('-password')
         .sort({ createdAt: -1 });
     } catch (error) {
@@ -76,49 +54,6 @@ export class UsersService {
     try {
       return await this.userModal.findById(id);
     } catch (error) {}
-  }
-
-  async cashMoney(moneyDto: MoneyDto, userId: string) {
-    try {
-      const data = await this.userModal
-        .findByIdAndUpdate(
-          userId,
-          { $inc: { money: moneyDto.money } },
-          { new: true },
-        )
-        .select('-password');
-      return {
-        status: HttpStatus.CREATED,
-        message: 'Nạp tiền thành công',
-        data,
-      };
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async cashMoneyByAdmin(moneyDto: MoneyDto, role: number) {
-    if (role !== 3) {
-      throw new BadRequestException({
-        message: 'Không có quyền',
-      });
-    }
-    try {
-      const data = await this.userModal
-        .findByIdAndUpdate(
-          moneyDto._id,
-          { $inc: { money: moneyDto.money } },
-          { new: true },
-        )
-        .select('-password');
-      return {
-        status: HttpStatus.CREATED,
-        message: 'Nạp tiền thành công',
-        data,
-      };
-    } catch (error) {
-      throw error;
-    }
   }
 
   async changeInfo(updateUserDto: UpdateUserDto) {
@@ -134,24 +69,6 @@ export class UsersService {
         status: HttpStatus.CREATED,
         message: 'Cập nhật thông tin thành công',
         data,
-      };
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async block(id: string, role: number) {
-    if (role !== 3) {
-      throw new BadRequestException({
-        message: 'Chỉ admin mới xem được khóa người dùng',
-      });
-    }
-    try {
-      const user = await this.userModal.findById(id);
-      await user.save();
-      return {
-        status: HttpStatus.OK,
-        message: 'Thay đổi trạng thái thành công',
       };
     } catch (error) {
       throw error;

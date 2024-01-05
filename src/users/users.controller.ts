@@ -11,7 +11,6 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { DeleteUserDto } from './dto/delete-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -24,7 +23,7 @@ export class UsersController {
 
   @Get('/')
   findAll(@Req() req) {
-    return this.usersService.findAll(req?.user?.role);
+    return this.usersService.findAll(req);
   }
 
   @Get(':id')
