@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthMiddleware } from './auth/middleware/auth.middleware';
+import { ClassesModule } from './classes/classes.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthMiddleware } from './auth/middleware/auth.middleware';
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     UsersModule,
+    ClassesModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtService],
