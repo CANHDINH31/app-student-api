@@ -4,10 +4,19 @@ import { UpdateClassDto } from './dto/update-class.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Class } from 'src/schemas/class.schema';
 import { Model } from 'mongoose';
+import { TestStatusDto } from './dto/test-status.dto';
+import { Result } from 'src/schemas/result.schema';
+import { Exam } from 'src/schemas/exam.schema';
+import { User } from 'src/schemas/users.schema';
 
 @Injectable()
 export class ClassesService {
-  constructor(@InjectModel(Class.name) private classModal: Model<Class>) {}
+  constructor(
+    @InjectModel(Class.name) private classModal: Model<Class>,
+    @InjectModel(Exam.name) private examModal: Model<Exam>,
+    @InjectModel(Result.name) private resultModal: Model<Result>,
+    @InjectModel(User.name) private userModal: Model<User>,
+  ) {}
 
   async create(createClassDto: CreateClassDto) {
     const classCreated = await this.classModal.create({ ...createClassDto });
@@ -17,6 +26,32 @@ export class ClassesService {
         message: 'Thêm mới lớp học thành công',
         data: classCreated.toObject(),
       };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async testStatus(testStatusDto: TestStatusDto) {
+    try {
+      const existClass = await this.classModal.findById(testStatusDto.class);
+
+      const existExam = await this.examModal.findById(testStatusDto.exam);
+
+      const listStudents = existClass.students;
+      const listResult = [];
+
+      for (const s of listStudents) {
+        const result = await this.resultModal.find({
+          student: s,
+          exam: testStatusDto.exam,
+        });
+
+        const student = await this.userModal.findById(s);
+
+        const data = { student, status: Boolean(result), exam: existExam };
+        listResult.push(data);
+      }
+      return listResult;
     } catch (error) {
       throw error;
     }

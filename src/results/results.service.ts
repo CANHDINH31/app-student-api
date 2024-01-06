@@ -76,20 +76,30 @@ export class ResultsService {
     }
   }
 
-  async findOne(id: string) {
+  async satisfy(id: string) {
     try {
-      return await this.resultModal
-        .findById(id)
+      const data = await this.resultModal
+        .find({ exam: id })
         .populate('student')
-        .populate('exam');
+        .populate('exam')
+        .sort({ numberCorrect: -1 });
+
+      return {
+        candidates: data?.length,
+        max: data?.[0],
+        min: data?.[data?.length - 1],
+        rank: data,
+      };
     } catch (error) {}
   }
 
-  update(id: number, updateResultDto: UpdateResultDto) {
-    return `This action updates a #${id} result`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} result`;
+  async findOne(id: string) {
+    try {
+      const data = await this.resultModal
+        .findById(id)
+        .populate('student')
+        .populate('exam');
+      return data;
+    } catch (error) {}
   }
 }

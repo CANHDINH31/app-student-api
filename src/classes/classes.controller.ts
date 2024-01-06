@@ -11,6 +11,7 @@ import {
 import { ClassesService } from './classes.service';
 import { CreateClassDto } from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
+import { TestStatusDto } from './dto/test-status.dto';
 
 @Controller('classes')
 export class ClassesController {
@@ -19,6 +20,11 @@ export class ClassesController {
   @Post()
   create(@Body() createClassDto: CreateClassDto) {
     return this.classesService.create(createClassDto);
+  }
+
+  @Post('/test-status')
+  testStatus(@Body() testStatusDto: TestStatusDto) {
+    return this.classesService.testStatus(testStatusDto);
   }
 
   @Get()
