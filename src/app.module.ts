@@ -10,6 +10,7 @@ import { AuthMiddleware } from './auth/middleware/auth.middleware';
 import { ClassesModule } from './classes/classes.module';
 import { ExamsModule } from './exams/exams.module';
 import { ResultsModule } from './results/results.module';
+import { ChatsModule } from './chats/chats.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ResultsModule } from './results/results.module';
     ClassesModule,
     ExamsModule,
     ResultsModule,
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtService],

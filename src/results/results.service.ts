@@ -1,6 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateResultDto } from './dto/create-result.dto';
-import { UpdateResultDto } from './dto/update-result.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Result } from 'src/schemas/result.schema';
 import { Model } from 'mongoose';
