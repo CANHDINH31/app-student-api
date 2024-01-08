@@ -37,6 +37,9 @@ export class UsersService {
 
     query = {
       ...(req?.query?.role && { role: req.query.role }),
+      ...(req?.query?.name && {
+        name: { $regex: req.query.name, $options: 'i' },
+      }),
     };
 
     try {
