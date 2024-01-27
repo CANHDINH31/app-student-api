@@ -41,14 +41,27 @@ export class ClassesService {
       const listResult = [];
 
       for (const s of listStudents) {
-        const result = await this.resultModal.find({
+        const result = await this.resultModal.findOne({
           student: s,
           exam: testStatusDto.exam,
         });
 
         const student = await this.userModal.findById(s);
 
-        const data = { student, status: Boolean(result), exam: existExam };
+        let status;
+
+        if (!result) {
+          status = 0;
+        } else {
+          status = result?.status;
+        }
+
+        const data = {
+          student,
+          status,
+          exam: existExam,
+          result,
+        };
         listResult.push(data);
       }
       return listResult;

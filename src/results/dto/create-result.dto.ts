@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateResultDto {
   @IsString()
@@ -8,6 +8,14 @@ export class CreateResultDto {
   @IsString()
   @IsNotEmpty()
   exam: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  duration: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  status: number;
 
   @IsNotEmpty()
   @IsArray()

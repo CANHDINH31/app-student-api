@@ -11,8 +11,9 @@ export class Exam {
   @Prop()
   description: string;
 
+  // Đổi sang seconds để submit còn lưu tiến độ
   @Prop()
-  duration: string;
+  duration: number;
 
   @Prop()
   content: string;

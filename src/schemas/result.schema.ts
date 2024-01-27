@@ -19,6 +19,13 @@ export class Result {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' })
   exam: string;
+
+  // 1:complete 2: not complete
+  @Prop()
+  status: number;
+
+  @Prop()
+  duration: number;
 }
 
 export const ResultSchema = SchemaFactory.createForClass(Result);

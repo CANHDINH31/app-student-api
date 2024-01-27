@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateExamDto {
   @IsString()
@@ -9,9 +9,9 @@ export class UpdateExamDto {
   @IsOptional()
   description: string;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  duration: string;
+  duration: number;
 
   @IsString()
   @IsOptional()

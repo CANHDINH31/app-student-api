@@ -4,12 +4,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Result } from 'src/schemas/result.schema';
 import { Model } from 'mongoose';
 import { Exam } from 'src/schemas/exam.schema';
+import { Class } from 'src/schemas/class.schema';
 
 @Injectable()
 export class ResultsService {
   constructor(
     @InjectModel(Result.name) private resultModal: Model<Result>,
     @InjectModel(Exam.name) private examModal: Model<Exam>,
+    @InjectModel(Class.name) private classModal: Model<Class>,
   ) {}
   async create(createResultDto: CreateResultDto) {
     try {
@@ -28,11 +30,13 @@ export class ResultsService {
         totalQuestion: listCorrectAnswer?.length,
         student: createResultDto.student,
         exam: createResultDto.exam,
+        duration: createResultDto.duration,
+        status: createResultDto.status,
       });
 
       return {
         status: HttpStatus.CREATED,
-        message: 'Chấm điểm thành công',
+        message: 'Chấm điểm thành công | Lưu kết quả',
         data: resultCreated,
       };
     } catch (error) {
